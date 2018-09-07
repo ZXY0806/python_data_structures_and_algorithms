@@ -43,7 +43,7 @@ def linear_search_recusive(array, value):
     index = len(array)-1
     if array[index] == value:
         return index
-    return linear_search_recusive(array[0:index], value)
+    return linear_search_recusive(array[0:index], value)  # 注意列表切片是左闭右开
 
 
 assert linear_search_recusive(number_list, 5) == 5

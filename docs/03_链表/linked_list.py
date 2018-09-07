@@ -10,7 +10,7 @@ class Node(object):
         """方便你打出来调试，复杂的代码可能需要断点调试"""
         return '<Node: value: {}, next={}>'.format(self.value, self.next)
 
-    __repr__ = __str__
+    __repr__ = __str__   # 注意该用法
 
 
 class LinkedList(object):
@@ -59,7 +59,7 @@ class LinkedList(object):
         while curnode is not self.tailnode:    # 从第一个节点开始遍历
             yield curnode
             curnode = curnode.next    # 移动到下一个节点
-        yield curnode
+        yield curnode    # 这句用yield 和return有没有区别？
 
     def remove(self, value):    # O(n)
         """ 删除包含值的一个节点，将其前一个节点的 next 指向被查询节点的下一个即可
@@ -90,6 +90,18 @@ class LinkedList(object):
                 return index
             index += 1
         return -1    # 没找到
+
+    def insert(self, value, new_value):  # O(n)
+        for node in self.iter_node():
+            if node.value == value:
+                newnode = Node(new_value)
+                nextnode = node.next
+                node.next = newnode
+                newnode.next = nextnode
+                self.length +=1
+                return 1
+            else:
+                return -1
 
     def popleft(self):    # O(1)
         """ 删除第一个链表节点
@@ -128,15 +140,17 @@ def test_linked_list():
     assert len(ll) == 2
     assert list(ll) == [1, 3]
     assert ll.find(0) == -1
+    assert ll.insert(1,2) == 1
+    assert list(ll) == [1,2,3]
 
     ll.appendleft(0)
-    assert list(ll) == [0, 1, 3]
-    assert len(ll) == 3
+    assert list(ll) == [0, 1, 2, 3]
+    assert len(ll) == 4
 
     headvalue = ll.popleft()
     assert headvalue == 0
-    assert len(ll) == 2
-    assert list(ll) == [1, 3]
+    assert len(ll) == 3
+    assert list(ll) == [1, 2, 3]
 
     ll.clear()
     assert len(ll) == 0

@@ -142,7 +142,7 @@ class SetADT(HashTable):
 
     def add(self, key):
         # 集合其实就是一个 dict，只不过我们把它的 value 设置成 1
-        return super(SetADT, self).add(key, True)
+        return super(SetADT, self).add(key, True)  # 此处重载add方法，不能直接用self.add
 
     def __and__(self, other_set):
         """交集 A&B"""

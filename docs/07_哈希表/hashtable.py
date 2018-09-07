@@ -64,7 +64,7 @@ class HashTable(object):
         _len = len(self._table)
         while self._table[index] is not HashTable.UNUSED:
             if self._table[index] is HashTable.EMPTY:
-                index = (index*5 + 1) % _len
+                index = (index*5 + 1) % _len          # 线性探查法
                 continue
             elif self._table[index].key == key:
                 return index
@@ -86,7 +86,7 @@ class HashTable(object):
         index = self._find_key(key)
         return index is not None
 
-    def add(self, key, value):
+    def add(self, key, value):    # O(1)
         if key in self:
             index = self._find_key(key)
             self._table[index].value = value
@@ -96,7 +96,7 @@ class HashTable(object):
             self._table[index] = Slot(key, value)
             self.length += 1
             if self._load_factor >= 0.8:
-                self._rehash()
+                self._rehash()           # 该操作对性能影响较大，应尽量减少此种情况发生
             return True
 
     def _rehash(self):
@@ -119,7 +119,7 @@ class HashTable(object):
         else:
             return self._table[index].value
 
-    def remove(self, key):
+    def remove(self, key):          # O(1)
         index = self._find_key(key)
         if index is None:
             raise KeyError()
@@ -152,7 +152,7 @@ def test_hash_table():
     for i in range(n):
         h.add(i, i)
 
-    for i in range(n):
+    for i in range(n):           # 注意key, value, index 的区别
         assert h.get(i) == i
 
 

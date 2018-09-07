@@ -29,11 +29,11 @@ class BinTree(object):
             node.right = node_dict.get(node_data['right'])
         return cls(root)
 
-    def preorder_trav(self, subtree):
+    def preorder_trav(self, subtree, callback_fuction):
         if subtree is not None:
-            print(subtree.data)
-            self.preorder_trav(subtree.left)
-            self.preorder_trav(subtree.right)
+            callback_fuction(subtree)           # 回调函数
+            self.preorder_trav(subtree.left, callback_fuction)
+            self.preorder_trav(subtree.right, callback_fuction)
 
     def reverse(self, subtree):
         if subtree is not None:
@@ -55,9 +55,12 @@ node_list = [
     {'data': 'J', 'left': None, 'right': None, 'is_root': False},
 ]
 
+def print_subtree(subtree):
+    print(subtree.data)
+
 
 btree = BinTree.build_from(node_list)
-btree.preorder_trav(btree.root)
+btree.preorder_trav(btree.root, print_subtree)
 btree.reverse(btree.root)
 print('====我是华丽丽滴分割线=====')
-btree.preorder_trav(btree.root)
+btree.preorder_trav(btree.root, print_subtree)

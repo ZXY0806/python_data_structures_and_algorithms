@@ -54,3 +54,12 @@ def insertion_sort(seq):
             pos -= 1
         seq[pos] = value    # 找到了合适的位置赋值就好
         print(seq)
+def test_insertion_sort():
+    seq = list(range(10))
+    random.shuffle(seq)
+    sorted_seq = sorted(seq)
+    insertion_sort(seq)
+    assert seq == sorted_seq
+
+if __name__ == '__main__':
+    test_insertion_sort()

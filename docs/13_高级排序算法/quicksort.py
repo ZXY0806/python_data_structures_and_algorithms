@@ -48,14 +48,33 @@ def partition(array, beg, end):
     array[pivot_index], array[right] = array[right], array[pivot_index]
     return right   # 新的 pivot 位置
 
+def nth_element(array, beg, end, k):     # 查找列表中起始位置之间第K大的元素
+    pivot = partition(array, beg, end)
+    if end - pivot == k:
+        return array[pivot]
+    if end - pivot > k:
+        beg = pivot+1
+        return nth_element(array, beg, end, k)
+    if end - pivot < k:
+        k -= end - pivot
+        end = pivot
+        return nth_element(array, beg, end, k)
+
+
+def test_nth_element():
+    l = [4, 2, 3, 5, 1]
+    assert nth_element(l, 0, 5, 5) == 1
+    l = [4, 2, 3, 5, 1]                     # nth_element()函数会改变l的元素顺序，因此这里重新定义l，方便断言
+    assert nth_element(l, 2, 5, 2) == 3
+
 
 def test_partition():
     l = [4, 1, 2, 8]
-    assert partition(l, 0, len(l)) == 2
+    assert partition(l, 1, len(l)) == 1
     l = [1, 2, 3, 4]
-    assert partition(l, 0, len(l)) == 0
+    assert partition(l, 2, len(l)) == 2
     l = [4, 3, 2, 1]
-    assert partition(l, 0, len(l))
+
 
 
 def test_quicksort_inplace():
@@ -65,3 +84,13 @@ def test_quicksort_inplace():
     sorted_seq = sorted(seq)
     quicksort_inplace(seq, 0, len(seq))
     assert seq == sorted_seq
+
+import sys
+if __name__ == '__main__':
+    # sys.setrecursionlimit(1000000)
+    test_partition()
+    # test_quicksort_inplace()
+    test_nth_element()
+
+
+

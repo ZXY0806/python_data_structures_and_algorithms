@@ -39,7 +39,7 @@ assert linear_search_recusive(number_list, 0) == 0
 
 
 def binary_search_recursive(sorted_array, beg, end, val):
-    if beg >= end:
+    if beg >= end:   # 注意此处用>=而不用>是因为假设beg， end 区间是左闭右开的，即实际上不存在sorted_array[end]这个成员
         return -1
     mid = int((beg + end) / 2)  # beg + (end-beg)/2
     if sorted_array[mid] == val:

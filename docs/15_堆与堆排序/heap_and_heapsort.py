@@ -81,16 +81,28 @@ class MaxHeap(object):
         self._siftdown(0)    # 维持堆特性
         return value
 
+    def sort(self):        # 正序堆排序
+        if self._count <= 0:
+            raise Exception('empty')
+        value = self._count          # 保存count值
+        while self._count > 0:
+            self._elements[0], self._elements[self._count-1] = self._elements[self._count-1], self._elements[0]
+            self._count -= 1
+            self._siftdown(0)
+        self._count = value
+        return list(self._elements)
+
+
     def _siftdown(self, ndx):
         left = 2 * ndx + 1
         right = 2 * ndx + 2
         # determine which node contains the larger value
         largest = ndx
         if (left < self._count and     # 有左孩子
-                self._elements[left] >= self._elements[largest] and
-                self._elements[left] >= self._elements[right]):  # 原书这个地方没写实际上找的未必是largest
+                self._elements[left] >= self._elements[largest]): #and
+                # self._elements[left] >= self._elements[right]):  # 原书这个地方没写实际上找的未必是largest(不对，不能有这句，如过没有右孩子，进不了判断)
             largest = left
-        elif right < self._count and self._elements[right] >= self._elements[largest]:
+        if right < self._count and self._elements[right] >= self._elements[largest]: # 有右孩子
             largest = right
         if largest != ndx:
             self._elements[ndx], self._elements[largest] = self._elements[largest], self._elements[ndx]
@@ -106,8 +118,17 @@ def test_maxheap():
     for i in reversed(range(n)):
         assert i == h.extract()
 
+def heapsort(array):         # 正序排列
+    length = len(array)
+    maxheap = MaxHeap(length)
+    for i in array:
+        maxheap.add(i)
+    a = Array(length)
+    for i in range(length):
+        a[length-1-i] = maxheap.extract()
+    return list(a)
 
-def heapsort_reverse(array):
+def heapsort_reverse(array):   # 倒序排列
     length = len(array)
     maxheap = MaxHeap(length)
     for i in array:
@@ -117,9 +138,34 @@ def heapsort_reverse(array):
         res.append(maxheap.extract())
     return res
 
+def sort(array):
+    length = len(array)
+    maxheap = MaxHeap(length)
+    for i in array:
+        maxheap.add(i)
+    return maxheap.sort()
 
 def test_heapsort_reverse():
     import random
     l = list(range(10))
     random.shuffle(l)
     assert heapsort_reverse(l) == sorted(l, reverse=True)
+
+def test_heapsort():
+    import random
+    l = list(range(10))
+    random.shuffle(l)
+    assert heapsort(l) == sorted(l, reverse=False)
+
+def test_sort():
+    import random
+    l = list(range(10))
+    random.shuffle(l)
+    # print(sort(l))
+    assert sort(l) == sorted(l, reverse=False)
+
+if __name__ == '__main__':
+    test_sort()
+    test_heapsort()
+    test_heapsort_reverse()
+

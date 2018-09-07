@@ -134,7 +134,7 @@ class Queue(object):
     def pop(self):
         """队列头部删除元素"""
         if len(self) <= 0:
-            raise EmptyError('empty queue')
+            raise EmptyError('empty queue')         # 注意自定义异常类的用法
         return self._item_link_list.popleft()
 
 

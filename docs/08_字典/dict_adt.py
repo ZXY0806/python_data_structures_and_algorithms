@@ -156,7 +156,7 @@ class DictADT(HashTable):
 
     def items(self):
         for slot in self._iter_slot():
-            yield (slot.key, slot.value)
+            yield (slot.key, slot.value)   # 元组生成器
 
     def keys(self):
         for slot in self._iter_slot():
@@ -176,14 +176,14 @@ def test_dict_adt():
     d.remove('a')
 
     l = list(range(30))
-    random.shuffle(l)
+    random.shuffle(l)   # 随机排序
     for i in l:
         d.add(i, i)
 
     for i in range(30):
         assert d.get(i) == i
 
-    assert sorted(list(d.keys())) == sorted(l)
+    assert sorted(list(d.keys())) == sorted(l)    # 升序排列可迭代对象
 
 
 test_dict_adt()
